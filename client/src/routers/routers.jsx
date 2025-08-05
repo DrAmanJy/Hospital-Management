@@ -96,3 +96,5 @@ export async function createRouter() {
 
   return createBrowserRouter(routes);
 }
+const router = await createRouter();
+export default router;
