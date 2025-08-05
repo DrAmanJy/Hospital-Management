@@ -26,71 +26,73 @@ import CompletedOrders from "../pages/Completed";
 import Pending from "../pages/Pending";
 import Orders from "../pages/Orders";
 
-let id = localStorage.getItem("id") || null;
-if (id) {
-  id = JSON.parse(id);
-}
-let user = await aboutMe(id);
-const routes = [
-  { path: "/", element: <Home /> },
-  { path: "/login", element: <LoginForm /> },
-  { path: "/signup", element: <SignupForm /> },
-];
+export async function createRouter() {
+  let id = localStorage.getItem("id") || null;
+  if (id) {
+    id = JSON.parse(id);
+  }
 
-if (user?.role === "user") {
-  routes.push({
-    path: "/home",
-    element: <UserLayout />,
-    children: [
-      { index: true, path: "main", element: <PHome /> },
-      { path: "sessions", element: <UserSessions /> },
-      { path: "appointment", element: <UserAppointment /> },
-      { path: "doctors", element: <UserDoctor /> },
-      { path: "pharmesy", element: <UserPharmesy /> },
-      { path: "setting", element: <Setting /> },
-    ],
-  });
-} else if (user?.role === "doctor") {
-  routes.push({
-    path: "/home",
-    element: <DoctorLayout />,
-    children: [
-      { index: true, path: "main", element: <Dashboard /> },
-      { path: "sessions", element: <DoctorSession /> },
-      { path: "appointment", element: <Appointment /> },
-      { path: "pharmesy", element: <DoctorPharmesy /> },
-      { path: "setting", element: <Setting /> },
-    ],
-  });
-} else if (user?.role === "admin") {
-  routes.push({
-    path: "/home",
-    element: <AdminLayout />,
-    children: [
-      { index: true, path: "main", element: <Dashboard /> },
-      { path: "doctor", element: <Doctor /> },
-      { path: "sessions", element: <Sessions /> },
-      { path: "appointment", element: <AdminAppointment /> },
-      { path: "pharmesy", element: <AdminPharmesy /> },
-      { path: "patients", element: <Patients /> },
-    ],
-  });
-} else if (user?.role === "pharmacists") {
-  routes.push({
-    path: "/home",
-    element: <PharmesyLayout />,
-    children: [
-      { index: true, path: "main", element: <Dashboard /> },
-      { path: "orders", element: <Orders /> },
-      { path: "Completed", element: <CompletedOrders /> },
-      { path: "pending", element: <Pending /> },
-      { path: "setting", element: <Setting /> },
-    ],
-  });
-} else {
-  routes.push({ path: "/home", element: <LoginForm /> });
-}
+  let user = await aboutMe(id);
 
-const router = createBrowserRouter(routes);
-user = null;
-export default router;
+  const routes = [
+    { path: "/", element: <Home /> },
+    { path: "/login", element: <LoginForm /> },
+    { path: "/signup", element: <SignupForm /> },
+  ];
+
+  if (user?.role === "user") {
+    routes.push({
+      path: "/home",
+      element: <UserLayout />,
+      children: [
+        { index: true, path: "main", element: <PHome /> },
+        { path: "sessions", element: <UserSessions /> },
+        { path: "appointment", element: <UserAppointment /> },
+        { path: "doctors", element: <UserDoctor /> },
+        { path: "pharmesy", element: <UserPharmesy /> },
+        { path: "setting", element: <Setting /> },
+      ],
+    });
+  } else if (user?.role === "doctor") {
+    routes.push({
+      path: "/home",
+      element: <DoctorLayout />,
+      children: [
+        { index: true, path: "main", element: <Dashboard /> },
+        { path: "sessions", element: <DoctorSession /> },
+        { path: "appointment", element: <Appointment /> },
+        { path: "pharmesy", element: <DoctorPharmesy /> },
+        { path: "setting", element: <Setting /> },
+      ],
+    });
+  } else if (user?.role === "admin") {
+    routes.push({
+      path: "/home",
+      element: <AdminLayout />,
+      children: [
+        { index: true, path: "main", element: <Dashboard /> },
+        { path: "doctor", element: <Doctor /> },
+        { path: "sessions", element: <Sessions /> },
+        { path: "appointment", element: <AdminAppointment /> },
+        { path: "pharmesy", element: <AdminPharmesy /> },
+        { path: "patients", element: <Patients /> },
+      ],
+    });
+  } else if (user?.role === "pharmacists") {
+    routes.push({
+      path: "/home",
+      element: <PharmesyLayout />,
+      children: [
+        { index: true, path: "main", element: <Dashboard /> },
+        { path: "orders", element: <Orders /> },
+        { path: "Completed", element: <CompletedOrders /> },
+        { path: "pending", element: <Pending /> },
+        { path: "setting", element: <Setting /> },
+      ],
+    });
+  } else {
+    routes.push({ path: "/home", element: <LoginForm /> });
+  }
+
+  return createBrowserRouter(routes);
+}
