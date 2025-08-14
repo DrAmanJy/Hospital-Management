@@ -52,7 +52,7 @@ const SignupForm = () => {
           })
         );
         localStorage.setItem("id", JSON.stringify(data.user._id));
-        navigate("/home/main");
+        navigate("/");
         window.location.reload();
       } else {
         console.log(data);
